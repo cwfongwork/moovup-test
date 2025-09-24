@@ -54,9 +54,13 @@ static LeakyBucketRateLimiter CreateRateLimiter(int capacity = 1, double leakRat
     return new LeakyBucketRateLimiter(capacity, leakRate);
 }
 
-static (bool, LeakyBucketRateLimiter) AllowRequest(LeakyBucketRateLimiter limiter, string user_id, double timestamp)
+static (bool, LeakyBucketRateLimiter) AllowRequest(LeakyBucketRateLimiter limiter, string userId, double timestamp)
 {
-    var (allowed, newLimiter) = limiter.HandleRequest(user_id, timestamp);
+    var (allowed, newLimiter) = limiter.HandleRequest(userId, timestamp);
     return (allowed, newLimiter);
 }
 
+static BucketInfo? GetBucketState(LeakyBucketRateLimiter limiter, string userId)
+{
+    return limiter.GetState(userId);
+}
